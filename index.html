@@ -1,0 +1,578 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Flutter Codelab #3 (Bonus Lab) - Creating The Splash Page - Building Layouts in Flutter (Workshop)</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="flutter-codelab-s3"
+                  title="Flutter Codelab #3 (Bonus Lab) - Creating The Splash Page - Building Layouts in Flutter (Workshop)"
+                  environment="web"
+                  feedback-link="https://romanjustcodes.web.app">
+    
+      <google-codelab-step label="Overview" duration="0">
+        <h2 is-upgraded>What You&#39;ll Build in this Workshop:</h2>
+<ul>
+<li>A simple 3-page Flutter Application / Bridges of the World (Landing Page / Bonus labs: Splash Screen and Details Page)</li>
+<li>Create Flutter User interfaces with ease</li>
+<li>Common Flutter Layout strategies using just core widgets</li>
+<li>Creating custom Flutter widgets and achieve widget composition</li>
+<li>Creating Dart models to mock up app data</li>
+<li>Import network images</li>
+<li>Using Material Icon fonts</li>
+<li>Basic Navigation strategies</li>
+</ul>
+<p class="image-container"><img alt="Full Application" src="img/84bc5a436eee8963.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Pre-requisites" duration="0">
+        <ul>
+<li>A computer with a browser</li>
+<li>An internet connection</li>
+</ul>
+<aside class="special"><p>We&#39;ll be using <a href="https://dartpad.dev/" target="_blank">DartPad</a>, a web-based, open-source tool that offers an online playground for learning Dart and Flutter. For more info, visit <a href="https://dart.dev/tools/dartpad" target="_blank">this link</a>.</p>
+</aside>
+<aside class="warning"><p>This is the continuation of <a href="https://romanejaquez.github.io/flutter-codelab-s2" target="_blank">Flutter Codelab #2</a>. Please complete <a href="https://romanejaquez.github.io/flutter-codelab-s2" target="_blank">lab #2</a> before completing this one. Please complete <a href="https://romanejaquez.github.io/flutter-codelab-s1" target="_blank">lab #1</a> before completing lab 2.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Creating the Splash Page" duration="0">
+        <p>We&#39;ll be creating the Splash page in order to greet the users and display the brand logo before proceeding to the <strong>LandingPage</strong> widget we created on the <a href="https://romanejaquez.github.io/flutter-codelab-s1" target="_blank">lab 1</a>.</p>
+<p>Here&#39;s the schematic view of the details page we&#39;ll be tackling:</p>
+<p class="image-container"><img alt="Splash Page" src="img/4e6bdd959e145e69.png"></p>
+<p>Note: For the duration of the development of this page and after, replace the <strong>home</strong> property of the <strong>MaterialApp</strong> page by the <strong>SplashPage</strong> widget we will be building (instead of the <strong>LandingPage</strong>), since the first page will eventually be the <strong>SplashPage</strong>, as such:</p>
+<p class="image-container"><img alt="Splash Page" src="img/8ed0758522b01c23.png"></p>
+<h2 is-upgraded>Creating the SPlash Page class</h2>
+<p>Let&#39;s create the boilerplate code / scaffold code for a <strong>StatelessWidget</strong>, as follows:</p>
+<p>Code available below (for copy / paste):</p>
+<pre><code language="language-flutter" class="language-flutter">class SplashPage extends StatelessWidget {
+  
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+</code></pre>
+<p>Let&#39;s start building the structure.</p>
+<p>Replace the <strong>Container</strong> widget in the return by a <strong>Stack</strong> widget.</p>
+<p>We use a <strong>Stack</strong> mostly to add widgets one on top of each other, in a layered fashion. We&#39;ll be adding the icon and the circular progress indicator on top of each other, aligned at the center.</p>
+<p class="image-container"><img alt="Splash Page" src="img/5e2369733f5503c5.png"></p>
+<p>As the first child of the <strong>Stack</strong>, add a <strong>Container</strong> widget with a background color of <strong>mainYellow</strong>:</p>
+<p class="image-container"><img alt="Splash Page" src="img/88e1f3578e891415.png"></p>
+<p>As the second child of the <strong>Stack</strong>, add an <strong>Icon</strong> widget, color black and 80px in size, wrapped inside a <strong>Align</strong> widget, center aligned:</p>
+<p class="image-container"><img alt="Splash Page" src="img/550512debd5dea13.png"></p>
+<p>As the third and last child of the <strong>Stack</strong>, add a <strong>CircularProgressIndicator</strong> widget, color black with a .5 opacity and a stroke width of 10px, wrapped inside a <strong>SizedBox</strong> widget in order to constrain its size to 160x160, and in turn, wrapped inside a <strong>Align</strong> widget, center aligned:</p>
+<p class="image-container"><img alt="Splash Page" src="img/f7bac77e6ad13244.png"></p>
+<p>After these changes, it should look as follows:</p>
+<p class="image-container"><img alt="Splash Page" src="img/980a2b9b2e22284a.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Simulate a delay on the Splash Page widget" duration="0">
+        <p>So what we&#39;ll do now is simulate a delay in the Splash Page, then navigate to our landing page. For that we&#39;ll make use of a <strong>Future</strong>, which is an object that represents a delayed computation. More on Futures <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html" target="_blank">here</a>.</p>
+<p>Back in our Splash Page widget, let&#39;s add a Future, and use one of the provided methods called <strong>delayed</strong>. This method takes a duration, and a callback, which gets executed once the duration (or delay) has ellapsed. We&#39;ll set a duration of 2 seconds, and when this time has ellapsed, it will execute our callback, which in turn will perform a Navigation to our landing page.</p>
+<p>Add a <strong><em>Future.delayed</em></strong> inside the SplashPage widget&#39;s <strong>build</strong> method, right above the <strong>return</strong> statement, as such:</p>
+<pre><code language="language-flutter" class="language-flutter">Future.delayed(const Duration(seconds: 2), () {
+    Navigator.of(context).push(
+    MaterialPageRoute(builder: (context) =&gt; LandingPage())
+    );
+});
+
+</code></pre>
+<p>Your code at the end should look as follows:</p>
+<p class="image-container"><img alt="Splash Page" src="img/906c01fed492138b.png"></p>
+<p>Let&#39;s dissect this code. <strong>Future.delayed</strong> takes two parameters: a <strong>Duration</strong> object with is <strong>seconds</strong> property set to 2, and a callback. When the 2 seconds have ellapsed, it will call the callback.</p>
+<p>The callback has inside a trigger to perform a navigation. We use <strong>Navigator.of</strong> to push a new route to the global navigation stack, using the <strong>BuildContext </strong><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html" target="_blank">context</a> to retrieve the closest navigator in the hierarchy, in our case, the one available by default from the <strong>MaterialApp</strong>. We use a <a href="https://api.flutter.dev/flutter/material/MaterialPageRoute-class.html" target="_blank"><strong>MaterialPageRoute</strong></a> to wrap the widget we want to navigate to, in our case the <strong>LandingPage</strong> widget created earlier.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Run the Application" duration="0">
+        <p>Now, let&#39;s take our current implementation for a spin with what we have so far.</p>
+<p>In DartPad, click <strong>Run</strong>. After a 2 seconds delay, you should see the SplashSpage widget slide out of view and sliding in comes the <strong>LandingPage</strong> widget, our landing page.</p>
+<p class="image-container"><img alt="Splash Page" src="img/93c8cdae4c8f1c6c.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Wrap-up" duration="0">
+        <p>Congrats in making it this far! In this codelab, we accomplished the following:</p>
+<ul>
+<li>Performed the initial setup of our DartPad environment</li>
+<li>Created our initial boilerplate startup code</li>
+<li>Created a SplashScreen widget with core widgets</li>
+<li>Created a dummy landing page for the SplashPage widget to navigate to</li>
+<li>Introduced Futures to add a small delay before proceeding further</li>
+<li>Tapped into the navigation capabilities of Flutter</li>
+</ul>
+<h3 is-upgraded>Please don&#39;t forget to follow me on social media:</h3>
+<ul>
+<li>On Twitter (<a href="https://www.twitter.com/drcoderz" target="_blank">@drcoderz</a>)</li>
+<li>On YouTube (<a href="https://www.youtube.com/channel/UCKsp3r1ERjCpKJtD2n5WtPg" target="_blank">Roman Just Codes</a>)</li>
+<li>On My <a href="https://romanjustcodes.web.app/#/home" target="_blank">Personal Portfolio</a></li>
+<li>On <a href="https://medium.com/@romanejaquez" target="_blank">Medium</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Complete Code" duration="0">
+        <p>In case you fell behind on this codelab, below is the whole code for this codelab in a way you can copy / paste directly into DartPad:</p>
+<pre><code language="language-flutter" class="language-flutter">import &#39;package:flutter/material.dart&#39;;
+
+final Color mainYellow = Color(0xFFFFB02F);
+final Color primaryGray = Color(0xFF313131);
+final Color secondaryGray = Color(0xFF1C1C1C);
+final Color lightGray = Color(0xFF3B3B3B);
+
+final List&lt;AttractionModel&gt; attractions = [
+  AttractionModel(
+    imgPath: &#39;https://images.pexels.com/photos/260590/pexels-photo-260590.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=3&amp;h=750&amp;w=1260&#39;,
+    name: &#39;Golden Gate Bridge&#39;,
+    location: &#39;San Francisco, CA&#39;,
+    description: &#39;The Golden Gate Bridge is a suspension bridge spanning the Golden Gate, the one-mile-wide strait connecting San Francisco Bay and the Pacific Ocean.&#39;
+  ),
+  AttractionModel(
+    imgPath: &#39;https://images.pexels.com/photos/5627275/pexels-photo-5627275.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=3&amp;h=750&amp;w=1260&#39;,
+    name: &#39;Brooklyn Bridge&#39;,
+    location: &#39;Brooklyn, NY&#39;,
+    description: &#39;The Golden Gate Bridge is a suspension bridge spanning the Golden Gate, the one-mile-wide strait connecting San Francisco Bay and the Pacific Ocean.&#39;
+  ),
+  AttractionModel(
+    imgPath: &#39;https://images.pexels.com/photos/5241381/pexels-photo-5241381.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=3&amp;h=750&amp;w=1260&#39;,
+    name: &#39;London Bridge&#39;,
+    location: &#39;London, UK&#39;,
+    description: &#39;The Golden Gate Bridge is a suspension bridge spanning the Golden Gate, the one-mile-wide strait connecting San Francisco Bay and the Pacific Ocean.&#39;
+  ),
+  AttractionModel(
+    imgPath: &#39;https://images.pexels.com/photos/1680247/pexels-photo-1680247.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=650&amp;w=940&#39;,
+    name: &#39;Harbour Bridge&#39;,
+    location: &#39;Sydney, AU&#39;,
+    description: &#39;The Golden Gate Bridge is a suspension bridge spanning the Golden Gate, the one-mile-wide strait connecting San Francisco Bay and the Pacific Ocean.&#39;
+  )
+];
+
+final List&lt;BottomBarModel&gt; bottomBarListItems = [
+  BottomBarModel(icon: Icons.explore_outlined, isSelected: true),
+  BottomBarModel(icon: Icons.favorite_border, isSelected: false),
+  BottomBarModel(icon: Icons.comment_outlined, isSelected: false),
+  BottomBarModel(icon: Icons.account_circle_outlined, isSelected: false),
+];
+
+void main() {
+  runApp(
+    MaterialApp(
+      home: SplashPage(),
+      debugShowCheckedModeBanner: false
+    )
+  );
+}
+
+class SplashPage extends StatelessWidget {
+  
+  @override
+  Widget build(BuildContext context) {
+
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) =&gt; LandingPage())
+      );
+    });
+
+    return Stack(
+      children: [
+        Container(
+          color: mainYellow,
+        ),
+        Align(
+          alignment: Alignment.center,
+          child: Icon(Icons.airplanemode_on, color: Colors.black, size: 80),
+        ),
+        Align(
+          alignment: Alignment.center,
+          child: SizedBox(
+            width: 160,
+            height: 160,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation&lt;Color&gt;(Colors.black.withOpacity(0.2)),
+              strokeWidth: 10,
+            ),
+          )
+        )
+      ],
+    );
+  }
+}
+
+class LandingPage extends StatelessWidget {
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: primaryGray,
+        iconTheme: IconThemeData(color: mainYellow),
+        title: Center(
+          child: Icon(Icons.airplanemode_on, color: mainYellow)
+        ),
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 10),
+            child: IconButton(
+              icon: Icon(Icons.notifications_on_outlined, color: Colors.grey),
+              onPressed: () {}
+            )
+          )
+        ]
+      ),
+      drawer: Drawer(
+        child: Container(
+          color: mainYellow,
+          alignment: Alignment.bottomLeft,
+          padding: EdgeInsets.all(20),
+          child: Icon(Icons.airplanemode_on, size: 80, color: Colors.black)
+        )
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              primaryGray,
+              secondaryGray
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter
+          )
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            HeaderWidget(),
+            AttractionListView(),
+            BottomBarWidget()
+          ]
+        )
+      )
+    );
+  }
+}
+
+//-----WIDGETS-----
+
+class HeaderWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(top: 30, left: 30, right: 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(&#39;Where do you&#39;, style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold)),
+              Text(&#39;want to go?&#39;, style: TextStyle(color: mainYellow, fontSize: 30, fontWeight: FontWeight.bold))
+            ]
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 30, right: 30),
+          child: Container(
+            padding: EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              color: lightGray
+            ),
+            margin: EdgeInsets.only(top: 20, bottom: 20),
+            child: Row(
+              children: [
+                Icon(Icons.search, color: Colors.grey),
+                SizedBox(width: 10),
+                Text(&#39;Search&#39;, style: TextStyle(color: Colors.grey))
+              ]
+            )
+          )
+        )
+      ]
+    );
+  }
+}
+
+class AttractionListView extends StatelessWidget {
+  
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListView.builder(
+        padding: EdgeInsets.only(left: 10),
+        itemCount: attractions.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          
+          AttractionModel currentAttraction = attractions[index];
+          return AttractionCard(attractionModel: currentAttraction);
+
+        }
+      )
+    );
+  }
+}
+
+class AttractionCard extends StatelessWidget {
+
+  AttractionModel? attractionModel;
+
+  AttractionCard({ this.attractionModel });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) =&gt; DetailsPage(selectedModel: attractionModel,))
+          );
+        },
+        child: Container(
+          width: 180,
+          margin: EdgeInsets.all(10),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(25),
+            child: Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(attractionModel!.imgPath!),
+                      fit: BoxFit.cover
+                    )
+                  )
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.transparent,
+                        Colors.black.withOpacity(0.5)
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter
+                    )
+                  )
+                ),
+                Padding(
+                  padding: EdgeInsets.all(30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(attractionModel!.name!, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                      SizedBox(height: 10),
+                      Text(attractionModel!.location!, style: TextStyle(color: mainYellow))
+                    ]
+                  )
+                )
+              ]
+            ),
+          )
+        )
+    );
+  }
+}
+
+class BottomBarWidget extends StatefulWidget {
+  @override
+  State&lt;BottomBarWidget&gt; createState() =&gt; BottomBarWidgetState();
+}
+
+class BottomBarWidgetState extends State&lt;BottomBarWidget&gt; {
+
+  List&lt;BottomBarModel&gt; _bottomBarItems = bottomBarListItems;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 20, bottom: 20),
+      padding: EdgeInsets.all(20),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: List.generate(
+          _bottomBarItems.length, (index) {
+
+            var barItemWidget = _bottomBarItems[index];
+
+            return IconButton(
+              icon: Icon(
+                barItemWidget.icon, 
+                color: barItemWidget.isSelected! ? mainYellow : Colors.grey
+              ),
+              onPressed: () {
+                setState(() {
+                  _bottomBarItems.forEach((element) {
+                    element.isSelected = element == barItemWidget;
+                  });
+                });
+              }
+            );
+          }
+        )
+      )
+    );
+  }
+}
+
+class DetailsPage extends StatelessWidget {
+ 
+  AttractionModel? selectedModel;
+  
+  DetailsPage({ this.selectedModel });
+
+  @override 
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body:  Stack(
+        children: [
+          Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(selectedModel!.imgPath!),
+                  fit: BoxFit.cover
+                )
+              )
+            ),
+          Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.transparent,
+                    Colors.black.withOpacity(0.8)
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter
+                )
+              )
+            ),
+          Padding(
+              padding: EdgeInsets.all(30),
+              child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(selectedModel!.name!, style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold)),
+                  Text(selectedModel!.location!, style: TextStyle(color: mainYellow)),
+                  SizedBox(height: 20),
+                  Text(selectedModel!.description!, style: TextStyle(color: Colors.white.withOpacity(0.7))),
+                  SizedBox(height: 40),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                          child: Text(&#39;View Comments&#39;, style: TextStyle(color: Colors.white)),
+                          onPressed: () {}
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Material(
+                            color: mainYellow,
+                            child: InkWell(
+                              onTap: () {},
+                              splashColor: Colors.black.withOpacity(0.1),
+                              highlightColor: Colors.black.withOpacity(0.2),
+                              child: Container(
+                                padding: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
+                                child: Text(&#39;Use Itinerary&#39;, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))
+                              ),
+                            ),
+                          )
+                        )
+                    ]
+                  )
+                ]
+            )
+          ),
+          AppBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            iconTheme: IconThemeData(color: mainYellow),
+            title: Center(
+              child: Icon(Icons.airplanemode_on, color: mainYellow)
+            ),
+            actions: [
+              Container(
+                margin: EdgeInsets.only(right: 10),
+                child: IconButton(
+                  icon: Icon(Icons.favorite, color: mainYellow),
+                  onPressed: () {}
+                )
+              )
+            ]
+          )
+        ]
+      )
+    );
+  }
+}
+
+//-----MODELS-----
+
+class AttractionModel {
+  
+  String? imgPath;
+  String? name;
+  String? location;
+  String? description;
+  
+  AttractionModel({
+    this.imgPath,
+    this.name,
+    this.location,
+    this.description
+  });
+}
+
+class BottomBarModel {
+  IconData? icon;
+  bool? isSelected;
+
+  BottomBarModel({ this.icon, this.isSelected });
+}
+
+</code></pre>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>

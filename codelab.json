@@ -1,0 +1,25 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2021-07-24T23:37:12-04:00",
+  "id": "flutter-codelab-s3",
+  "duration": 0,
+  "title": "Flutter Codelab #3 (Bonus Lab) - Creating The Splash Page - Building Layouts in Flutter (Workshop)",
+  "authors": "Roman Jaquez",
+  "summary": "Flutter Codelab #3 - (Bonus Lab: Splash Page)",
+  "source": "flutter-codelab-s3.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "flutter"
+  ],
+  "tags": [
+    "flutter"
+  ],
+  "feedback": "https://romanjustcodes.web.app",
+  "url": "flutter-codelab-s3"
+}
